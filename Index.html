@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Sprint Talk - Gestão de Polos</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #3b82f6;
+            --bg: #f8fafc;
+            --text: #1e293b;
+            --border: #e2e8f0;
+            --accent: #f1f5f9;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            transition: background 0.3s;
+        }
+
+        /* Tela de Seleção */
+        #selector-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .welcome-card {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 650px;
+            width: 100%;
+        }
+
+        .welcome-card h1 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1.2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+
+        .btn-video { background-color: var(--primary); color: white; }
+        .btn-video:hover { background-color: #152a61; transform: translateY(-3px); }
+
+        .btn-summary { background-color: var(--secondary); color: white; }
+        .btn-summary:hover { background-color: #2563eb; transform: translateY(-3px); }
+
+        /* Seções de Conteúdo */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Player de Vídeo Estilo Avançado */
+        .video-player-container {
+            max-width: 500px;
+            margin: 1rem auto;
+            padding: 1rem;
+            background: #000;
+            border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Modo Cinema */
+        .theater-mode .video-player-container {
+            max-width: 800px;
+            background: #000;
+        }
+        .theater-mode body { background: #0f172a; }
+        .theater-mode .back-btn, .theater-mode h2 { color: #fff; }
+
+        .vimeo-wrapper {
+            position: relative;
+            padding-bottom: 177.77%; /* 9:16 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #000;
+            transition: transform 0.5s ease;
+        }
+
+        /* Rotação */
+        .rotated-video .vimeo-wrapper {
+            padding-bottom: 56.25%; /* Muda para 16:9 visualmente */
+            transform: rotate(0deg); /* O iframe será ajustado */
+        }
+        
+        /* Quando girado, o container precisa de novas dimensões */
+        .rotated-video.video-player-container {
+            max-width: 900px;
+        }
+
+        .vimeo-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Barra de Ferramentas Estilo YouTube */
+        .player-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+        }
+
+        .control-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: 0.2s;
+        }
+
+        .control-btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: #fff;
+        }
+
+        .back-btn {
+            margin: 1rem 0;
+            background: #e2e8f0;
+            color: var(--primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            display: inline-block;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        /* Resumo */
+        .container {
+            max-width: 850px;
+            margin: 2rem auto;
+            padding: 3rem;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        header { border-bottom: 3px solid var(--primary); margin-bottom: 2rem; padding-bottom: 1rem; }
+        h2 { color: var(--primary); border-left: 5px solid var(--secondary); padding: 0.5rem 1rem; background: var(--accent); }
+        
+        @media (max-width: 600px) {
+            .button-group { grid-template-columns: 1fr; }
+            .container, .video-player-container { padding: 1rem; margin: 0.5rem; }
+            .player-controls { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TELA DE SELEÇÃO -->
+    <div id="selector-screen">
+        <div class="welcome-card">
+            <h1>Sprint Talk Janeiro</h1>
+            <p>Conteúdo da live do dia 09/01/2026.</p>
+            
+            <div class="button-group">
+                <button class="btn btn-video" onclick="showSection('video-section')">
+                    <span>🎬</span>
+                    Assistir Vídeo (9:16)
+                </button>
+                <button class="btn btn-summary" onclick="showSection('summary-section')">
+                    <span>📄</span>
+                    Ver Resumo Executivo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEÇÃO DO VÍDEO (COM NOVAS OPÇÕES) -->
+    <div id="video-section" class="content-section">
+        <div style="text-align: center; padding-top: 1rem;">
+            <a href="#" class="back-btn" onclick="exitVideo()">← Voltar ao Início</a>
+            <h2 style="background: transparent; border: 0; color: inherit;">Gravação da Live</h2>
+        </div>
+
+        <div id="main-player" class="video-player-container">
+            <div class="vimeo-wrapper" id="vimeo-wrapper">
+                <iframe id="vimeo-iframe" 
+                        src="https://player.vimeo.com/video/1153406523?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+                        allow="autoplay; fullscreen; picture-in-picture" 
+                        allowfullscreen 
+                        title="Live Sprint Talk">
+                </iframe>
+            </div>
+
+            <!-- CONTROLES ESTILO YOUTUBE -->
+            <div class="player-controls">
+                <button class="control-btn" onclick="toggleRotation()">
+                    🔄 Girar Vídeo
+                </button>
+                <button class="control-btn" onclick="toggleTheater()">
+                    🔳 Modo Cinema
+                </button>
+                <button class="control-btn" onclick="toggleFullScreen()">
+                    ⛶ Tela Cheia
+                </button>
+            </div>
+        </div>
+        
+        <div style="text-align: center; color: #64748b; font-size: 0.8rem; margin-top: 1rem;">
+            Utilize os controles acima para ajustar a visualização.
+        </div>
+    </div>
+
+    <!-- SEÇÃO DO RESUMO -->
+    <div id="summary-section" class="content-section">
+        <div class="container">
+            <a href="#" class="back-btn" onclick="showSection('selector-screen')">← Voltar</a>
+            <header>
+                <h1>Plano Operacional: Sprint Talk</h1>
+                <p><strong>Facilitador:</strong> Fernando</p>
+            </header>
+            <main>
+                <section>
+                    <h2>Resumo Estratégico</h2>
+                    <p>Foco na <strong>prospecção ativa</strong>.</p>
+                </section>
+                <section>
+                    <h2>Metas Janeiro</h2>
+                    <p>04 EAD | 10 Semipresencial | 04 Pós</p>
+                </section>
+            </main>
+            <footer style="text-align: center; margin-top: 2rem; color: #94a3b8;">
+                <p>Documento Oficial - 2026</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            document.getElementById('selector-screen').style.display = 'none';
+            document.getElementById('video-section').style.display = 'none';
+            document.getElementById('summary-section').style.display = 'none';
+
+            const target = document.getElementById(sectionId);
+            if (sectionId === 'selector-screen') {
+                target.style.display = 'flex';
+            } else {
+                target.style.display = 'block';
+                window.scrollTo(0, 0);
+            }
+        }
+
+        // Função para voltar ao início e limpar estados do vídeo
+        function exitVideo() {
+            const player = document.getElementById('main-player');
+            player.classList.remove('rotated-video');
+            player.classList.remove('theater-mode');
+            document.body.classList.remove('theater-mode');
+            
+            // Reiniciar iframe para parar vídeo
+            const iframe = document.getElementById('vimeo-iframe');
+            iframe.src = iframe.src;
+            
+            showSection('selector-screen');
+        }
+
+        // Alternar Rotação (9:16 <-> 16:9 adaptado)
+        function toggleRotation() {
+            const player = document.getElementById('main-player');
+            player.classList.toggle('rotated-video');
+        }
+
+        // Alternar Modo Cinema (Theater)
+        function toggleTheater() {
+            const player = document.getElementById('main-player');
+            player.classList.toggle('theater-mode');
+            document.body.classList.toggle('theater-mode');
+        }
+
+        // Forçar Tela Cheia usando a API do Browser
+        function toggleFullScreen() {
+            const player = document.getElementById('main-player');
+            if (!document.fullscreenElement) {
+                if (player.requestFullscreen) {
+                    player.requestFullscreen();
+                } else if (player.webkitRequestFullscreen) { /* Safari */
+                    player.webkitRequestFullscreen();
+                } else if (player.msRequestFullscreen) { /* IE11 */
+                    player.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+    </script>
+</body>
+</html>
+

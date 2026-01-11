@@ -3,13 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Sprint Talk - Janeiro 2026</title>
-    <!-- 
-        Instruções para GitHub:
-        1. Crie um repositório novo no GitHub.
-        2. Suba este arquivo com o nome 'index.html'.
-        3. Vá em Settings > Pages e ative a publicação a partir da branch 'main'.
-    -->
+    <title>Portal Sprint Talk - Diretrizes Janeiro 2026</title>
     <style>
         :root {
             --primary: #1e3a8a;
@@ -20,6 +14,7 @@
             --accent: #f1f5f9;
             --white: #ffffff;
             --dark-bg: #0f172a;
+            --highlight: #2563eb;
         }
 
         body {
@@ -47,36 +42,32 @@
         .welcome-card {
             background: var(--white);
             padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            max-width: 650px;
             width: 100%;
         }
 
         .welcome-card h1 {
             color: var(--primary);
             margin-bottom: 0.5rem;
-            font-size: 2.2rem;
-        }
-
-        .welcome-card p {
-            color: #64748b;
-            margin-bottom: 2.5rem;
+            font-size: 2.4rem;
         }
 
         .button-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
+            margin-top: 2.5rem;
         }
 
         .btn {
-            padding: 1.2rem;
+            padding: 1.3rem;
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-decoration: none;
             display: flex;
             flex-direction: column;
@@ -87,23 +78,23 @@
         }
 
         .btn-video { background-color: var(--primary); color: white; }
-        .btn-video:hover { background-color: #152a61; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(30, 58, 138, 0.3); }
+        .btn-video:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(30, 58, 138, 0.3); }
 
         .btn-summary { background-color: var(--secondary); color: white; }
-        .btn-summary:hover { background-color: #2563eb; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3); }
+        .btn-summary:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); }
 
         /* --- Estrutura de Seções --- */
         .content-section {
             display: none;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.6s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- Player de Vídeo Avançado --- */
+        /* --- Player de Vídeo (Otimizado 9:16) --- */
         .video-container {
             max-width: 100%;
             display: flex;
@@ -114,112 +105,131 @@
 
         #player-wrapper {
             width: 100%;
-            max-width: 450px; /* Base para 9:16 */
+            max-width: 450px;
             background: #000;
-            border-radius: 16px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
             position: relative;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s ease;
         }
 
-        /* Proporção 9:16 */
         .video-aspect {
             position: relative;
-            padding-bottom: 177.77%;
+            padding-bottom: 177.77%; /* 9:16 */
             height: 0;
             background: #000;
         }
 
         .video-aspect iframe {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
+            top: 0; left: 0; width: 100%; height: 100%; border: 0;
         }
 
-        /* Controles do Player */
         .player-toolbar {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-            padding: 10px;
-            background: rgba(0,0,0,0.05);
-            border-radius: 12px;
-            width: fit-content;
+            gap: 12px;
+            margin-top: 25px;
+            padding: 12px;
+            background: rgba(0,0,0,0.06);
+            border-radius: 16px;
         }
 
         .tool-btn {
             background: var(--white);
             border: 1px solid var(--border);
-            padding: 10px 15px;
-            border-radius: 8px;
+            padding: 12px 18px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: 0.2s;
-            color: var(--text);
             font-weight: 600;
+            transition: 0.2s;
         }
 
         .tool-btn:hover { background: var(--accent); border-color: var(--secondary); }
 
-        /* Modos Especiais */
+        /* Modos do Player */
         .theater-active body { background-color: var(--dark-bg); }
         .theater-active .video-container h2, .theater-active .back-nav { color: white; }
-        .theater-active #player-wrapper { max-width: 800px; }
+        .theater-active #player-wrapper { max-width: 750px; }
+        .rotated-active #player-wrapper { max-width: 900px; }
+        .rotated-active .video-aspect { padding-bottom: 56.25%; }
 
-        .rotated-active #player-wrapper {
-            max-width: 900px;
-        }
-        .rotated-active .video-aspect {
-            padding-bottom: 56.25%; /* Muda visualmente para 16:9 */
-        }
-
-        /* --- Estilos do Resumo --- */
+        /* --- ESTILO DO RESUMO COMPLETO --- */
         .summary-container {
-            max-width: 850px;
+            max-width: 900px;
             margin: 2rem auto;
-            padding: 3rem;
+            padding: 4rem;
             background: var(--white);
-            border-radius: 16px;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.06);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
         }
 
-        .summary-header { border-bottom: 3px solid var(--primary); margin-bottom: 2rem; padding-bottom: 1.5rem; }
-        .summary-header h1 { color: var(--primary); margin: 0; font-size: 1.8rem; text-transform: uppercase; }
+        .summary-header { border-bottom: 4px solid var(--primary); margin-bottom: 3rem; padding-bottom: 1.5rem; }
+        .summary-header h1 { color: var(--primary); margin: 0; font-size: 2.2rem; line-height: 1.2; }
         
+        .section-box { margin-bottom: 3rem; }
         .section-title {
             color: var(--primary);
-            border-left: 5px solid var(--secondary);
-            padding: 0.6rem 1rem;
-            margin: 1.5rem 0;
+            border-left: 6px solid var(--secondary);
+            padding: 0.8rem 1.2rem;
+            margin: 2rem 0 1.5rem 0;
             background: var(--accent);
-            font-size: 1.2rem;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .content-card { border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; background: #fff; margin-bottom: 1.5rem; }
+        .meta-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+            gap: 1.5rem; 
+            margin: 2rem 0; 
+        }
+        .meta-card { 
+            background: linear-gradient(135deg, #ffffff, #f1f5f9); 
+            padding: 2rem; 
+            border-radius: 16px; 
+            text-align: center; 
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .meta-card .val { display: block; font-size: 2.5rem; font-weight: 900; color: var(--primary); line-height: 1; }
+        .meta-card .label { font-size: 0.9rem; font-weight: bold; color: #64748b; text-transform: uppercase; margin-top: 10px; display: block;}
+
+        .highlight-box {
+            background: #fffbeb;
+            border-left: 5px solid #f59e0b;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+        }
+
+        .badge-step { background: var(--primary); color: white; padding: 2px 10px; border-radius: 4px; font-size: 0.8rem; margin-right: 10px; }
         
-        .grid-metas { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
-        .meta-box { background: var(--accent); padding: 1.2rem; border-radius: 10px; text-align: center; border: 1px solid var(--border); }
-        .meta-num { display: block; font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+        ul.check-list { list-style: none; padding: 0; }
+        ul.check-list li { 
+            padding: 12px 0; 
+            border-bottom: 1px solid var(--border); 
+            display: flex; 
+            align-items: flex-start;
+        }
+        ul.check-list li::before { content: "✓"; color: #10b981; font-weight: bold; margin-right: 15px; }
 
-        .badge { background: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 6px; font-weight: bold; font-size: 0.8rem; margin-right: 8px; }
+        .back-nav { margin-bottom: 25px; display: inline-block; text-decoration: none; color: var(--primary); font-weight: bold; cursor: pointer; border-bottom: 2px solid transparent; transition: 0.2s; }
+        .back-nav:hover { border-bottom-color: var(--primary); }
 
-        .back-nav { margin-bottom: 20px; display: inline-block; text-decoration: none; color: var(--primary); font-weight: bold; cursor: pointer; }
+        footer { text-align: center; padding: 4rem 1rem; color: #94a3b8; border-top: 1px solid var(--border); margin-top: 4rem; }
 
-        footer { text-align: center; padding: 3rem 1rem; color: #94a3b8; font-size: 0.85rem; }
-
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
+            .summary-container { padding: 2rem 1.5rem; margin: 1rem; }
             .button-group { grid-template-columns: 1fr; }
-            .welcome-card { padding: 2rem 1.5rem; }
-            .summary-container { padding: 1.5rem; margin: 1rem; }
-            .player-toolbar { flex-wrap: wrap; justify-content: center; }
+            .meta-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -228,17 +238,19 @@
     <!-- TELA DE SELEÇÃO -->
     <div id="selector-screen">
         <div class="welcome-card">
-            <h1>Sprint Talk Janeiro</h1>
-            <p>Escolha como deseja visualizar o conteúdo da live de 09/01/2026.</p>
+            <h1 style="margin-top:0">Sprint Talk</h1>
+            <p>Portal Oficial de Diretrizes e Metas - Janeiro 2026</p>
             
             <div class="button-group">
                 <button class="btn btn-video" onclick="showSection('video-section')">
-                    <span style="font-size: 1.8rem;">🎥</span>
-                    Assistir Vídeo (9:16)
+                    <span style="font-size: 2rem;">🎥</span>
+                    ASSISTIR LIVE (9:16)
+                    <small style="font-weight:normal;opacity:0.8">Vídeo da Reunião</small>
                 </button>
                 <button class="btn btn-summary" onclick="showSection('summary-section')">
-                    <span style="font-size: 1.8rem;">📋</span>
-                    Ver Resumo Executivo
+                    <span style="font-size: 2rem;">📄</span>
+                    RESUMO DO MATERIAL
+                    <small style="font-weight:normal;opacity:0.8">Documento de Diretrizes</small>
                 </button>
             </div>
         </div>
@@ -247,8 +259,8 @@
     <!-- SEÇÃO DO VÍDEO -->
     <div id="video-section" class="content-section">
         <div class="video-container">
-            <div class="back-nav" onclick="closeVideo()">← Voltar ao Início</div>
-            <h2>Gravação Sprint Talk</h2>
+            <div class="back-nav" onclick="closeVideo()">← Voltar ao Menu Principal</div>
+            <h2 style="margin-top:0">Gravação: Sprint de Janeiro</h2>
             
             <div id="player-wrapper">
                 <div class="video-aspect">
@@ -260,69 +272,139 @@
                 </div>
             </div>
 
-            <!-- TOOLBAR ESTILO YOUTUBE -->
             <div class="player-toolbar">
-                <button class="tool-btn" onclick="handleRotate()">
-                    🔄 Girar
-                </button>
-                <button class="tool-btn" onclick="handleTheater()">
-                    🔳 Cinema
-                </button>
-                <button class="tool-btn" onclick="handleFullScreen()">
-                    ⛶ Expandir
-                </button>
+                <button class="tool-btn" onclick="handleRotate()">🔄 Girar Vídeo</button>
+                <button class="tool-btn" onclick="handleTheater()">🔳 Modo Cinema</button>
+                <button class="tool-btn" onclick="handleFullScreen()">⛶ Tela Cheia</button>
             </div>
         </div>
     </div>
 
-    <!-- SEÇÃO DO RESUMO -->
+    <!-- SEÇÃO DO RESUMO (CONTEÚDO INTEGRAL) -->
     <div id="summary-section" class="content-section">
         <div class="summary-container">
-            <div class="back-nav" onclick="showSection('selector-screen')">← Voltar</div>
+            <div class="back-nav" onclick="showSection('selector-screen')">← Voltar ao Menu</div>
             
             <header class="summary-header">
-                <h1>Plano Operacional: Sprint Talk</h1>
-                <div style="color: #64748b; margin-top: 5px;">Facilitador: Fernando | Janeiro 2026</div>
+                <h1>Diretrizes e Metas para os Polos<br><span style="color:var(--secondary)">Sprint de Janeiro 2026</span></h1>
             </header>
 
             <main>
-                <h2 class="section-title">Resumo Estratégico</h2>
-                <p>Foco total na <strong>prospecção ativa</strong>. Transição do modelo passivo para sprints mensais de abordagem direta.</p>
-
-                <h2 class="section-title">Metas de Janeiro</h2>
-                <div class="grid-metas">
-                    <div class="meta-box"><span class="meta-num">04</span>Matrículas EAD</div>
-                    <div class="meta-box"><span class="meta-num">10</span>Semipresencial</div>
-                    <div class="meta-box"><span class="meta-num">04</span>Pós-Graduação</div>
+                <!-- 1.0 Introdução -->
+                <div class="section-box">
+                    <h2 class="section-title">1.0 Introdução e Metas Objetivas</h2>
+                    <p>Início do modelo de trabalho <strong>"Sprintal"</strong>: metodologia focada em alinhar operações e garantir a execução disciplinada das estratégias de captação através de sprints mensais.</p>
+                    
+                    <div class="meta-grid">
+                        <div class="meta-card">
+                            <span class="val">04</span>
+                            <span class="label">Matrículas Graduação EAD</span>
+                        </div>
+                        <div class="meta-card">
+                            <span class="val">10</span>
+                            <span class="label">Semipresencial (se houver)</span>
+                        </div>
+                        <div class="meta-card">
+                            <span class="val">04</span>
+                            <span class="label">Pós-Graduação</span>
+                        </div>
+                    </div>
+                    <div class="highlight-box">
+                        "Essa aqui é a meta, meta totalmente alcançável referente às matrículas do mês de janeiro..." — Fernando.
+                    </div>
                 </div>
 
-                <h2 class="section-title">Diretrizes Digitais</h2>
-                <div class="content-card">
-                    <h3>Atendimento Profissional</h3>
+                <!-- 2.0 Canais Digitais -->
+                <div class="section-box">
+                    <h2 class="section-title">2.0 Configuração Obrigatória dos Canais</h2>
+                    <p>A presença digital profissional é um requisito fundamental. Canais desatualizados geram perda imediata de credibilidade.</p>
+                    
+                    <div class="content-card">
+                        <h3>Canais Mandatórios</h3>
+                        <ul>
+                            <li><strong>Instagram/Facebook:</strong> Perfis organizados e ativos. Proibida inatividade.</li>
+                            <li><strong>WhatsApp Business:</strong> Uso obrigatório de conta comercial. Proibido uso de fotos pessoais (selfies, filhos, família) no perfil de atendimento.</li>
+                            <li><strong>Google Meu Negócio:</strong> Fonte vital de visibilidade local. Deve conter fotos da unidade, contactos, morada e horários.</li>
+                        </ul>
+
+                        <h3>Frequência Mínima de Postagens</h3>
+                        <p>Manter os canais "vivos" é essencial para não parecer uma empresa inativa:</p>
+                        <ul>
+                            <li><strong>Stories:</strong> 03 publicações por dia.</li>
+                            <li><strong>Feed:</strong> 01 publicação por semana.</li>
+                            <li><strong>Reels (Vídeo):</strong> 01 publicação por semana.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 3.0 Prospecção Ativa -->
+                <div class="section-box">
+                    <h2 class="section-title">3.0 Prospecção Ativa: Estratégias</h2>
+                    <p>Abandono da postura passiva (esperar o aluno entrar). O polo deve ir até o aluno.</p>
+                    
+                    <div class="content-card">
+                        <h3>Convênios com Empresas Locais</h3>
+                        <ol>
+                            <li><strong>Mapeamento:</strong> Listar no mínimo 30 empresas da região.</li>
+                            <li><strong>Meta:</strong> Firmar pelo menos 01 nova parceria por mês (início em Janeiro).</li>
+                            <li><strong>Incentivo:</strong> Oferta de 10% de desconto adicional para funcionários E CLIENTES da empresa parceira.</li>
+                        </ol>
+                        <p><em>Dica de Ouro:</em> Focar em Secretarias Individuais (Saúde, Educação, Cultura) para obter "momento de fala" em reuniões de professores e assembleias.</p>
+                    </div>
+
+                    <div class="content-card">
+                        <h3>Ações Externas (Mínimo 1/mês)</h3>
+                        <p>Exemplos de ações de impacto:</p>
+                        <ul>
+                            <li>Carro e moto de som na cidade.</li>
+                            <li>Panfletagem em pontos estratégicos e colagem de cartazes.</li>
+                            <li>Pesquisa de campo para captura de novos Leads.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 4.0 Recursos e Suporte -->
+                <div class="section-box">
+                    <h2 class="section-title">4.0 Recursos de Suporte</h2>
+                    <p>O polo não está sozinho na execução deste plano.</p>
                     <ul>
-                        <li>WhatsApp Business: Foto estritamente profissional.</li>
-                        <li>Google Meu Negócio: Atualização semanal obrigatória.</li>
+                        <li><strong>Manual de Padronização:</strong> Guia prático de 5 minutos com Redes Sociais, Políticas e Scripts de Vendas.</li>
+                        <li><strong>Equipe "Sucesso dos Polos":</strong> Ponto de contato direto para suporte.</li>
+                        <li><strong>Treinamentos Disponíveis:</strong> Gestão de Redes, Abordagem Externa, Anúncios Pagos (Tráfego) e Atendimento WhatsApp.</li>
                     </ul>
                 </div>
 
-                <h2 class="section-title">Prospecção Externa</h2>
-                <div class="content-card">
-                    <ul>
-                        <li><span class="badge">Ação</span> Carro ou moto de som na cidade.</li>
-                        <li><span class="badge">Ação</span> Panfletagem e colagem de cartazes.</li>
-                        <li><span class="badge">Ação</span> Mapeamento de 30 empresas locais para convénios.</li>
+                <!-- 5.0 Esclarecimentos -->
+                <div class="section-box">
+                    <h2 class="section-title">5.0 Esclarecimentos Estratégicos</h2>
+                    <div class="content-card" style="border-left: 4px solid var(--secondary)">
+                        <p><strong>Prefeituras:</strong> Um convênio geral não basta. É preciso contato individual com cada secretário para gerar conexão humana e abrir portas.</p>
+                        <p><strong>EJA:</strong> Altamente sinérgico. O objetivo é identificar onde a pessoa parou e levá-la ao próximo nível (EJA -> Graduação).</p>
+                    </div>
+                </div>
+
+                <!-- 6.0 Checklist Final -->
+                <div class="section-box">
+                    <h2 class="section-title">6.0 Checklist de Ações Imediatas</h2>
+                    <ul class="check-list">
+                        <li>Ler o Manual de Padronização integralmente.</li>
+                        <li>Adequar Canais Digitais (Google, WhatsApp, Instagram).</li>
+                        <li>Iniciar frequência de 3 Stories/dia.</li>
+                        <li>Listar as 30 empresas para mapeamento.</li>
+                        <li>Definir e executar a Ação Externa do mês.</li>
+                        <li>Fechar o 1º convênio de Janeiro.</li>
                     </ul>
                 </div>
             </main>
 
             <footer>
-                <p>© 2026 Gestão de Sucesso dos Polos - Documento Interno</p>
+                <p>Documento Oficial de Diretrizes - Janeiro 2026<br>Gestão de Sucesso dos Polos</p>
             </footer>
         </div>
     </div>
 
     <script>
-        // Navegação entre seções
+        // Navegação de Seções
         function showSection(id) {
             document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
             document.getElementById('selector-screen').style.display = 'none';
@@ -340,42 +422,25 @@
         function closeVideo() {
             const player = document.getElementById('player-wrapper');
             const iframe = document.getElementById('vimeo-iframe');
-            
-            // Reset de classes
             document.body.classList.remove('theater-active');
             player.classList.remove('rotated-active');
             
-            // Para o vídeo reiniciando o src
             const currentSrc = iframe.src;
-            iframe.src = currentSrc;
+            iframe.src = currentSrc; // Para o áudio
             
             showSection('selector-screen');
         }
 
-        // Função de Rotação (9:16 para Horizontal Simulada)
-        function handleRotate() {
-            const player = document.getElementById('player-wrapper');
-            player.classList.toggle('rotated-active');
-        }
-
-        // Modo Cinema
-        function handleTheater() {
-            document.body.classList.toggle('theater-active');
-        }
-
-        // Tela Cheia Nativa
+        // Funções do Player
+        function handleRotate() { document.getElementById('player-wrapper').classList.toggle('rotated-active'); }
+        function handleTheater() { document.body.classList.toggle('theater-active'); }
         function handleFullScreen() {
             const container = document.getElementById('player-wrapper');
             if (!document.fullscreenElement) {
-                if (container.requestFullscreen) {
-                    container.requestFullscreen();
-                } else if (container.webkitRequestFullscreen) { /* Safari */
-                    container.webkitRequestFullscreen();
-                }
+                if (container.requestFullscreen) container.requestFullscreen();
+                else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
             } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
+                if (document.exitFullscreen) document.exitFullscreen();
             }
         }
     </script>
